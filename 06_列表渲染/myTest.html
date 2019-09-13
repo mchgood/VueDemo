@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>列表渲染(数组)</title>
+    <script src="../js/vue.js"></script>
+    <style>
+        body{ text-align:center}
+        #demo{
+            margin:0 auto;
+            width:400px;
+            height:100px
+        }
+        td,th{
+            border:1px solid;
+            padding:0;
+            width:100px;
+            height:10px
+        }
+        table{
+            border-collapse:collapse;
+            border-spacing:0;
+        }
+    </style>
+</head>
+<body>
+<div id="demo">
+    <table >
+        <thead>
+            <tr>
+                <th>姓名</th>
+                <th>年龄</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="(p, index) in persons" :key="index">
+                <td>{{p.name}}</td>
+                <td>{{p.age}}</td>
+                <td>
+                    <button @click="deleteP(index)">删除</button>
+                    <button @click="updateP(index, {name:'Cat', age: 16})">更新</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<script>
+    const vm = new Vue({
+        el:"#demo",
+        data:{
+            persons:[
+                {name:"tom",age:18},
+                {name:"bob",age:17},
+                {name:"jack",age:19},
+                {name:"rose",age:20}
+            ]
+        },
+        methods:{
+            deleteP(index){
+                //splice包含增删改三个操作
+                //增加    this.persons.splice(index,0,newP);
+                //删除    this.persons.splice(index,1);
+                //修改    this.persons.splice(index,1,newP);
+                this.persons.splice(index,1);
+            },
+            updateP(index,newP){
+                this.persons.splice(index,1,newP);
+            }
+        }
+    })
+</script>
+</html>
