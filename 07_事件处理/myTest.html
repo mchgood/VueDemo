@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>事件处理</title>
+    <script src="../js/vue.js"></script>
+
+</head>
+<body>
+<div id="demo">
+    <h2>1. 绑定监听</h2>
+    <button @click="btn1($event)">btn1</button>
+    <button @click="btn2('按钮2',$event)">btn2</button>
+    <h2>2. 事件修饰符</h2>
+    <!--  阻止冒泡事件  -->
+    <div style="width: 200px;height: 200px;background: red" @click="out">
+        <div style="width: 100px;height: 100px;background: green" @click.stop="inner"></div>
+    </div>
+    <!--  阻止事件的默认行为  -->
+    <a href="https://www.baidu.com/" @click.prevent="baidu">百度</a>
+    <h2>3. 按键修饰符</h2>
+    <input type="text" @keyup="enterF">
+    <input type="text" @keyup.enter="enterFun">
+</div>
+</body>
+<script>
+    const vm = new Vue({
+        el:"#demo",
+        data:{
+
+        },
+        methods:{
+            btn1(event){
+                alert(event.target.innerHTML)
+            },
+            btn2(text,event){
+                alert(text+"----"+event.target.innerHTML)
+            },
+            out() {
+                alert("out");
+            },
+            inner(){
+                alert("inner");
+            },
+            baidu(){
+                alert("百度");
+            },
+            enterF(event){
+                //只执行回按键
+                if(event.keyCode===13)
+                alert(event.target.value);
+            },
+            enterFun(event){
+                alert(event.target.value);
+            }
+        }
+    })
+</script>
+</html>
