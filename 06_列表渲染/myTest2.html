@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>列表渲染(数组)</title>
+    <title>列表搜索排序</title>
     <script src="../js/vue.js"></script>
     <style>
         body{ text-align:center}
@@ -33,9 +33,15 @@
                 <th>年龄</th>
                 <th>操作</th>
             </tr>
+            <tr>
+                <th><input type="text" ></th>
+                <th><input type="text" v-model="searchPerson.name"></th>
+                <th><input type="text" v-model="searchPerson.age"></th>
+                <th><input type="text"></th>
+            </tr>
         </thead>
         <tbody>
-            <tr v-for="(p, index) in persons" :key="index">
+            <tr v-for="(p, index) in filterPersons" :key="index">
                 <td>{{index}}</td>
                 <td>{{p.name}}</td>
                 <td>{{p.age}}</td>
@@ -47,14 +53,22 @@
             </tr>
         </tbody>
     </table>
+    <button @click="setOrderType(2)">年龄升序</button>
+    <button @click="setOrderType(1)">年龄降序</button>
+    <button @click="setOrderType(0)">原本顺序</button>
 </div>
 </body>
 <script>
     const vm = new Vue({
         el:"#demo",
         data:{
+            searchPerson:{
+                name:"",
+                age:""
+            },
+            orderType:0,//0原本，1升序，2降序
             persons:[
-                {name:"tom",age:18},
+                {name:"tom",age:'18'},
                 {name:"bob",age:17},
                 {name:"1jack",age:19},
                 {name:"2jack",age:16},
@@ -67,14 +81,35 @@
         },
         methods:{
             deleteP(index){
-                //splice包含增删改三个操作
-                //增加    this.persons.splice(index,0,newP);
-                //删除    this.persons.splice(index,1);
-                //修改    this.persons.splice(index,1,newP);
                 this.persons.splice(index,1);
             },
             updateP(index,newP){
                 this.persons.splice(index,1,newP);
+            },setOrderType(value){
+                this.orderType=value;
+            }
+        },
+        computed:{
+            filterPersons (){
+                var searchName=this.searchPerson.name;
+                var searchAge=this.searchPerson.age;
+                var type = this.orderType;
+                let arr;
+                arr = this.persons
+                    .filter(p=>p.name.indexOf(searchName)>-1)
+                    .filter(p=>(p.age+"").indexOf(searchAge)>-1);
+                if(type!==0){
+                    arr.sort(function (p1,p2){
+                        //返回负数 p1 在前
+                        //返回整数 p2 在前
+                        if(type==2){
+                            return p1.age-p2.age;
+                        }else if(type==1){
+                            return p2.age-p1.age;
+                        }
+                    })
+                }
+                return arr;
             }
         }
     })
