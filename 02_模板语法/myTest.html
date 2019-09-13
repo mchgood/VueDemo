@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模板语法</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <h2>1. 双大括号表达式</h2>
+        <p>{{username}}</p>
+        <p>{{username.toUpperCase()}}</p>
+        <h2>2. 指令一: 强制数据绑定</h2>
+        <img :src="imgUrl">
+        <h2>3. 指令二: 绑定事件监听</h2>
+        <button @click="btn1">按钮1</button>
+        <button @click="btn2(username)">按钮2</button>
+    </div>
+</body>
+<script>
+    const vm=new Vue({
+        el:"#app",
+        data:{
+            username:"tangkc",
+            imgUrl:"https://www.easyicon.net/api/resizeApi.php?id=1227690&size=128"
+        },
+        methods:{
+            btn1(){
+                alert("btn1");
+            },
+            btn2(str){
+                alert(str);
+            }
+        }
+    });
+</script>
+</html>
