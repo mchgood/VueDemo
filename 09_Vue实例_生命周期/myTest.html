@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue实例生命周期</title>
+    <script src="../js/vue.js"></script>
+</head>
+<body>
+<div id="demo">
+    <button @click="destory">销毁</button>
+    <p>定时器：{{time}}</p>
+</div>
+</body>
+<script>
+    const vm = new Vue({
+        el:"#demo",
+        data:{
+            time:0
+        },
+        mounted() {//初始化显示之后立即调用
+            this.intervalId = setInterval(()=>{
+                console.dir(this.time);
+                this.time = this.time+1;
+            },500)
+        },
+        beforeDestroy(){//销毁之前
+            clearInterval(this.intervalId);//清除定时器
+        },
+        methods:{
+            destory(){
+                this.$destroy();//销毁
+            }
+        }
+    })
+</script>
+</html>

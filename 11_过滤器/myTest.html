@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>过滤器</title>
+    <script src="../js/vue.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/moment.js/2.22.1/moment.js"></script>
+</head>
+<body>
+    <div id="demo">
+        <p>未格式化：{{data}}</p>
+        <p>格式化：{{data | dataFormat}}</p>
+        <p>时分秒格式化：{{data | dataFormat("HH时mm分ss秒")}}</p>
+    </div>
+</body>
+<script>
+    const vm = new Vue({
+        el:"#demo",
+        data:{
+            data: new Date()
+        },
+        mounted() {//初始化显示之后立即调用
+            this.intervalId = setInterval(()=>{
+                this.data = moment(this.data).add(1, 's');;
+            },1000)
+        },
+        beforeDestroy(){//销毁之前
+            clearInterval(this.intervalId);//清除定时器
+        },
+        filters:{
+            dataFormat(value, format='YYYY-MM-DD HH:mm:ss'){
+                return moment(value).format(format);
+            }
+        }
+    });
+</script>
+</html>
